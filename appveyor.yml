@@ -1,0 +1,57 @@
+version: 1.1.{build}-{branch}
+
+image:
+ - Visual Studio 2019
+
+platform:
+  - x64
+
+stack: 
+  - node >=18
+
+cache:
+  - node_modules
+
+install:
+ - cmd: yarn set version 1.22.21
+ - yarn
+  
+build: off
+
+
+deploy: off
+
+branches:
+  only:
+    - master
+
+build_script:
+  - yarn run build
+  # - ps: &rsync 'C:\Program Files (x86)\cwRsync\bin\rsync.exe'
+  # - ps: &move-backend-index '&rsync -av --prune-empty-dirs --include "*.js" --exclude "*" dist/backend/src/app/backend/src/serve/ dist/backend/db/ && &rsync -av --prune-empty-dirs --include "*.map" --exclude "*" dist/backend/src/app/backend/src/serve/ dist/backend/db/'
+  # - ps: &move-db-index '&rsync -av --prune-empty-dirs --include "*.js" --exclude "*" dist/db/src/app/db/src/db/ dist/backend/db && cp dist/db/src/app/db/src/db/*.map dist/backend/db'
+  # - ps: &new-folder 'mkdir -p dist/backend/db '
+  # - ps: &remove-index 'rmdir dist/backend/src'
+  # - ps: &remove-db 'rmdir dist/db'
+  # - npm run serve:reserv
+  # - ps: &start-build-dev 'yarn workspaces run build:dev && &move-backend-index && &new-folder && &move-db-index'
+  # - ps: *start-build-dev
+  # - ps: Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+
+deploy_script:  # скрипт развёртывания
+# Конкретно шаг развертывания выполняется вот этим скриптом:
+# deploy_script: # скрипт развёртывания
+
+# https://www.appveyor.com/docs/how-to/git-push/
+# https://www.appveyor.com/docs/how-to/git-push/#adding-access-token-to-credential-store
+  - git config --global credential.helper store #включает кеширование учетных данных
+  - git config --global user.name Tryd0g0lik
+  - git config --global user.email work80@mail.ru
+  # При аутентификации с помощью токена доступа `x-oauth-basic` используется в качестве заглушки пароля
+  #- ps: Set-Content -Path  "$HOME/.git-credentials" -Value "https://$GITHUB_TOKEN:x-oauth-basic@github.com"  -NoNewline
+  - ps: Write-Host "https://$GITHUB_TOKEN:x-oauth-basic@github.com" > "$HOME/.git-credentials" -NoNewline
+
+  - yarn add push-dir -W --dir=dist --branch=master
+  # --force
+# Обратите внимание на последнюю строчку, она отправляет собранное приложение на github pages, где оно будет доступно по
+# ссылке, которую я вам написал, а не той которую вы нашли в статье на другую тему.

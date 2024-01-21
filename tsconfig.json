@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "ES2015",
+    "module": "ES2020",
+    "rootDirs": [
+      "./src/frontend"
+    ],
+    "allowImportingTsExtensions": true,
+    "allowJs": false,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "directory",
+    "archive",
+    "**/result",
+    "estree",
+    "**/estree"
+  ],
+  "files": [
+    "src/index.ts",
+  ]
+}
