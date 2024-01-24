@@ -13,15 +13,7 @@
   background-color: cadetblue;
 }
 
-/* .clock {
-  width: 200px;
-  height: 200px;
-  border: 10px solid black;
-  border-radius: 50%;
-  position: relative;
-} */
-
-.hour-mark {
+.indicator {
   position: absolute;
   top: calc(var(--watch-size) / 2);
   left: 50%;
@@ -32,14 +24,15 @@
 }
 
 /* Позиционирование часовых делений */
-.hour-mark:nth-child(1) {
+.indicator:nth-child(1) {
   outline: 1px dashed;
 
-  transform: translate(-2px, -50%) rotate(30deg);
+  /* transform: rotate(30deg); */
+    /* translate(-2px, -50%) */
 }
 
-.hour-mark:nth-child(2) {
+.indicator:nth-child(2) {
   width: 25%;
-  transform: translate(-2px, -50%);
+  /* transform: translate(-2px, -50%); */
   /* rotate(60deg); */
 }
