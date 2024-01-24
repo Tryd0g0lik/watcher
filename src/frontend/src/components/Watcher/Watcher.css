@@ -1,0 +1,45 @@
+:root {
+  --watch-size: 200px;
+}
+
+.watch {
+  width: var(--watch-size);
+  height: var(--watch-size);
+  border: 4px solid black;
+  border-radius: 50%;
+  position: relative;
+  transform: rotate(0.5turn);
+
+  background-color: cadetblue;
+}
+
+/* .clock {
+  width: 200px;
+  height: 200px;
+  border: 10px solid black;
+  border-radius: 50%;
+  position: relative;
+} */
+
+.hour-mark {
+  position: absolute;
+  top: calc(var(--watch-size) / 2);
+  left: 50%;
+  width: 45%;
+  height: 3px;
+  background-color: black;
+  transform-origin: left;
+}
+
+/* Позиционирование часовых делений */
+.hour-mark:nth-child(1) {
+  outline: 1px dashed;
+
+  transform: translate(-2px, -50%) rotate(30deg);
+}
+
+.hour-mark:nth-child(2) {
+  width: 25%;
+  transform: translate(-2px, -50%);
+  /* rotate(60deg); */
+}
