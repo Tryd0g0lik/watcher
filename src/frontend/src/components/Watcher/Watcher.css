@@ -1,0 +1,42 @@
+:root {
+  --watch-size: 200px;
+}
+
+.watch {
+  width: var(--watch-size);
+  height: var(--watch-size);
+  border: 2px solid black;
+  border-radius: 50%;
+  position: relative;
+  transform: rotate(0.5turn);
+
+  background-color: #cfcfcf;
+}
+
+.indicator {
+  position: absolute;
+  top: calc(var(--watch-size) / 2);
+  left: 50%;
+  width: 45%;
+  height: 1px;
+  background-color: black;
+  transform-origin: left;
+}
+
+/* Позиционирование часовых делений */
+.indicator:nth-child(1) {
+  outline: 1px dashed;
+
+  /* transform: rotate(30deg); */
+    /* translate(-2px, -50%) */
+}
+
+.indicator:nth-child(2) {
+  width: 25%;
+  height: 4px;
+  }
+  
+  .indicator:nth-child(3) {
+    width: 45%;
+    height: 4px;
+}

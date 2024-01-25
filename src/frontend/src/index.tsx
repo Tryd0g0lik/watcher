@@ -1,6 +1,7 @@
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
+import fun from "./functions.ts";
 
 const root = document.getElementById("root");
 if ((root !== null) && (root !== undefined)) {
@@ -10,3 +11,4 @@ if ((root !== null) && (root !== undefined)) {
     </StrictMode>
   );
 }
+fun(7);
