@@ -1,8 +1,22 @@
+/**
+ * Еа вход получаем UTC в формате строки
+ */
 export default class Times {
   UTC: number;
   root: Record<any, any>;
-  constructor(utc: number) {
-    this.UTC = utc;
+  constructor(utc: string) {
+    this.UTC = this.regExp(utc) ? Number(utc) : 0;
+  }
+
+  /**
+   * @param str -> utc;
+   * @returns true/false
+   */
+  private regExp(str: string): boolean {
+    const pattern = /(^[^(%_ \$ А-Яа-яA-Za-z])(\+|-)?[0-9]{1,2}$/;
+    const re = new RegExp(pattern, "i");
+    console.log("[RegExp]: ", re.test(str));
+    return re.test(str);
   }
 
   set boxTime(root: Record<any, any>) {
@@ -11,8 +25,7 @@ export default class Times {
 
   timeZone(): void {
     const root = this.root;
-    console.log("[ROOT]: ", this.root);
-    console.log("[ROOT]: ", root);
+
     setInterval(() => {
       const date = new Date();
       const T_SEC = 6 * date.getUTCSeconds();
