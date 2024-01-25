@@ -6,6 +6,7 @@ export default function WatcherFC(): React.JSX.Element {
     <div className="watch">
       <span className="indicator"></span>
       <span className="indicator"></span>
+      <span className="indicator"></span>
     </div>
   );
 }

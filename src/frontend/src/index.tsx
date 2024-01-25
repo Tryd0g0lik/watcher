@@ -11,4 +11,4 @@ if ((root !== null) && (root !== undefined)) {
     </StrictMode>
   );
 }
-fun();
+fun(7);

@@ -5,12 +5,12 @@
 .watch {
   width: var(--watch-size);
   height: var(--watch-size);
-  border: 4px solid black;
+  border: 2px solid black;
   border-radius: 50%;
   position: relative;
   transform: rotate(0.5turn);
 
-  background-color: cadetblue;
+  background-color: #cfcfcf;
 }
 
 .indicator {
@@ -18,7 +18,7 @@
   top: calc(var(--watch-size) / 2);
   left: 50%;
   width: 45%;
-  height: 3px;
+  height: 1px;
   background-color: black;
   transform-origin: left;
 }
@@ -33,6 +33,10 @@
 
 .indicator:nth-child(2) {
   width: 25%;
-  /* transform: translate(-2px, -50%); */
-  /* rotate(60deg); */
+  height: 4px;
+  }
+  
+  .indicator:nth-child(3) {
+    width: 45%;
+    height: 4px;
 }
