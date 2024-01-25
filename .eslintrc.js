@@ -90,6 +90,7 @@ module.exports = {
     "@typescript-eslint/no-unnecessary-condition": "off",
     "import/no-extraneous-dependencies": "off",
     "prefer-const": "off",
+    "no-useless-escape": "off"
   },
   "overrides": [
     // {
