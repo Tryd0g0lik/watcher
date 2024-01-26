@@ -1,7 +1,7 @@
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
-import Times from "./time-zone.ts";
+// import Times from "./services/time-zone.ts";
 
 const root = document.getElementById("root");
 if ((root !== null) && (root !== undefined)) {
@@ -12,9 +12,9 @@ if ((root !== null) && (root !== undefined)) {
   );
 }
 
-const timeZone = new Times("+7");
+// const timeZone = new Times("+7");
 
-if (root !== null) {
-  timeZone.boxTime = root;
-  timeZone.timeZone();
-}
+// if (root !== null) {
+//   timeZone.boxTime = root;
+//   timeZone.timeZone();
+// }
