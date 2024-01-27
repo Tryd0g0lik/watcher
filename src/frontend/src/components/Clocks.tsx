@@ -17,10 +17,6 @@ export default function ClocksFC(): React.JSX.Element {
   listing.push(watch);
   const [clocks, setClocks] = useState(listing);
 
-  // clocks.push(watch);
-  console.log("[listing]: ", listing);
-  // console.log("[memo]: ", memo);
-
   function handler(e: any): void {
     const patterncitys = /^[A-ZА-Я][а-яa-z]+[а-яa-z]$/; /* Условия для проверки названий городов */
     const re = new RegExp(patterncitys);
@@ -50,9 +46,8 @@ export default function ClocksFC(): React.JSX.Element {
       console.log("[Input Timizone Value]: true", timezone);
       setUtc(timezone);
 
-      setWatch(<WatcherFC utc={utc} />);
+      setWatch(<WatcherFC utc={timezone} />);
       listing.push(watch);
-      console.log("[listing 2]: ", listing);
       setClocks(listing);
     } else {
       console.log("[Input Timizone Value]: false", timezone);
