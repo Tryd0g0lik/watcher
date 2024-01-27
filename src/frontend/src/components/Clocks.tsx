@@ -6,17 +6,20 @@ import FormFC from "./Forms/index.tsx";
 const x = new Date();
 let currentTimeZoneOffsetInHours = String(x.getTimezoneOffset() / 60 * -1);
 console.log("[cuttent UTC]: ", currentTimeZoneOffsetInHours);
-let listing: any[] = [];
+
 // let root: any = "";
 export default function ClocksFC(): React.JSX.Element {
+  let listing = [] as any[];
   const uniqueInd = useId();
   // const [city, setCity] = useState();
   const [utc, setUtc] = useState(currentTimeZoneOffsetInHours);
-  const [watch, setWatch] = useState(<WatcherFC utc={utc} />);
-  // listing.push(watch);
-  const [clocks, setClocks] = useState([watch]);
+  const [watch, setWatch] = useState(<WatcherFC utc={currentTimeZoneOffsetInHours} />);
+  listing.push(watch);
+  const [clocks, setClocks] = useState(listing);
+
   // clocks.push(watch);
-  console.log("[clock]: ", clocks);
+  console.log("[listing]: ", listing);
+  // console.log("[memo]: ", memo);
 
   function handler(e: any): void {
     const patterncitys = /^[A-ZА-Я][а-яa-z]+[а-яa-z]$/; /* Условия для проверки названий городов */
@@ -33,9 +36,6 @@ export default function ClocksFC(): React.JSX.Element {
     const citys = (formSourceData.get("citys") as string).slice(0);
     let timezone = (formSourceData.get("timzone") as string).slice(0);
 
-    setWatch(<WatcherFC utc={utc} />);
-    listing.push(watch);
-    setClocks(listing);
     /* Проверка шаблона из названий городов */
     if (re.test(citys)) {
       console.log("[Input citys Value]: true", citys);
@@ -49,6 +49,11 @@ export default function ClocksFC(): React.JSX.Element {
     if (reTimeZone.test(timezone)) {
       console.log("[Input Timizone Value]: true", timezone);
       setUtc(timezone);
+
+      setWatch(<WatcherFC utc={utc} />);
+      listing.push(watch);
+      console.log("[listing 2]: ", listing);
+      setClocks(listing);
     } else {
       console.log("[Input Timizone Value]: false", timezone);
     }
@@ -58,7 +63,7 @@ export default function ClocksFC(): React.JSX.Element {
     <>
       <FormFC handler={handler} />
       <div>
-        {listing.map((item: any) => (
+        {clocks.map((item: any) => (
           <div key={uniqueInd + listing.length}>
             {item}
           </div>
