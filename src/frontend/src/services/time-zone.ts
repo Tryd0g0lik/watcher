@@ -37,8 +37,8 @@ export default class Times {
 
     setInterval(() => {
       this.liveTime();
-      const elem = <HTMLCollectionOf<HTMLSpanElement> | null>root.getElementsByClassName("indicator");
-      if (elem !== null && elem !== undefined) {
+      const elem = <HTMLCollectionOf<HTMLSpanElement>>root.getElementsByClassName("indicator");
+      if ((elem !== null) && (elem.length > 0) && (elem?.[0].style !== undefined)) {
         elem[0].style.transform = `rotate(${this.T_SEC + 90}deg)`;
         elem[1].style.transform = `rotate(${this.T_HOUR + 90}deg)`;
         elem[2].style.transform = `rotate(${this.T_MIN + 90}deg)`;

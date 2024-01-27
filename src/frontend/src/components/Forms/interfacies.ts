@@ -5,3 +5,7 @@ export interface Inp {
   placeholder: string
   htmlfor: string
 }
+
+export interface Hand {
+  handler: (e: any) => void
+}
