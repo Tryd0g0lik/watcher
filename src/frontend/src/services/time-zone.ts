@@ -9,6 +9,7 @@ export default class Times {
   T_HOUR: any;
   constructor(utc: string) {
     this.UTC = Number(utc);
+    console.log("[constructor]:  UTC ", this.UTC);
   }
 
   /**

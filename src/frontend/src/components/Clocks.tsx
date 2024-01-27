@@ -1,5 +1,6 @@
-import React, { useState, useId } from "react"; // , useId
+import React, { useState } from "react"; // , useId
 import WatcherFC from "./Watcher/index.tsx";
+import Ind from "../services/getId.ts";
 // import Times from "../services/time-zone.ts";
 import FormFC from "./Forms/index.tsx";
 
@@ -8,16 +9,17 @@ let currentTimeZoneOffsetInHours = String(x.getTimezoneOffset() / 60 * -1);
 console.log("[cuttent UTC]: ", currentTimeZoneOffsetInHours);
 
 // let root: any = "";
-export default function ClocksFC(): React.JSX.Element {
+export default function ClocksFC(): React.JSX.Element | undefined {
   let listing = [] as any[];
-  const uniqueInd = useId();
-  // const [city, setCity] = useState();
-  const [utc, setUtc] = useState(currentTimeZoneOffsetInHours);
+  const ind = new Ind();
+  // let uniqueInd = ;
+
   const [watch, setWatch] = useState(<WatcherFC utc={currentTimeZoneOffsetInHours} />);
   listing.push(watch);
   const [clocks, setClocks] = useState(listing);
 
   function handler(e: any): void {
+    // uniqueInd = ind.indAdd();
     const patterncitys = /^[A-ZА-Я][а-яa-z]+[а-яa-z]$/; /* Условия для проверки названий городов */
     const re = new RegExp(patterncitys);
 
@@ -41,10 +43,10 @@ export default function ClocksFC(): React.JSX.Element {
     }
 
     /* Проверка шаблона из временной зоны */
-    timezone = "-".includes(timezone) ? timezone : ("+" + timezone);
+    timezone = timezone.includes("-") ? timezone : ("+" + timezone);
     if (reTimeZone.test(timezone)) {
-      console.log("[Input Timizone Value]: true", timezone);
-      setUtc(timezone);
+      // setUtc(timezone);
+      // console.log("[Input Timizone Value]: true", timezone, utc);
 
       setWatch(<WatcherFC utc={timezone} />);
       listing.push(watch);
@@ -53,17 +55,18 @@ export default function ClocksFC(): React.JSX.Element {
       console.log("[Input Timizone Value]: false", timezone);
     }
   }
-  // if (clocks.length > 1) {
+  // if (uniqueInd !== null && uniqueInd !== undefined) {
   return (
     <>
       <FormFC handler={handler} />
       <div>
         {clocks.map((item: any) => (
-          <div key={uniqueInd + listing.length}>
+        <div key={ind.indAdd() + String(listing.length)}>
             {item}
           </div>
         ))}
       </div>
     </>
   );
+  // }
 }
