@@ -11,25 +11,22 @@ export default function WatcherFC({ utc }: UTC): React.JSX.Element {
   const ind = new Ind();
   const useInd = ind.indAdd();
   let root: HTMLElement | null = null;
+  const time = new Times(utc);
+  console.log("[WatcherFC ]: UTC Times", utc);
   // const []
   useEffect(() => {
     root = document.getElementById("root");
     if (root === null || root === undefined) return;
     const subroot = root.querySelector(`div[data-name="${useInd}"`);
     if (subroot === null || subroot === undefined) return;
-    const time = new Times(utc);
+
     time.boxTime = subroot;
     time.timeZone();
     console.log("[WatcherFC useEffect]: UTC 0", utc);
     return () => { };
   }, []);
   console.log("[WatcherFC ]: UTC 1", utc);
-  // debugger;
 
-  // if ((root !== undefined) && (root !== null)) {
-  //   time.boxTime = root;
-  //   time.timeZone();
-  // }
   return (
     <div className="watch" data-name={useInd}>
       <span className="indicator"></span>

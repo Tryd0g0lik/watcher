@@ -12,17 +12,6 @@ export default class Times {
     console.log("[constructor]:  UTC ", this.UTC);
   }
 
-  /**
-   * @param str -> utc;
-   * @returns true/false
-   */
-  private regExp(str: string): boolean {
-    const pattern = /(^[^(%_ \$ А-Яа-яA-Za-z])(\+|-)?[0-9]{1,2}$/;
-    const re = new RegExp(pattern, "i");
-    console.log("[RegExp]: ", re.test(str));
-    return re.test(str);
-  }
-
   set boxTime(root: Record<any, any>) {
     this.root = root;
   }
