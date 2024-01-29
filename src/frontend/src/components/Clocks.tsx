@@ -44,23 +44,34 @@ export default function ClocksFC(): React.JSX.Element | undefined {
       const indNew = cityId.indAdd();
       if ((indNew !== null) && (indNew !== undefined)) {
         console.log("[Timizone will add UTC]: ", offset);
-				clocks.set(indNew, { offset: offset, name: name });
-				const newMap = new Map(clocks);
-				setClocks(newMap); /* добавили данные из формы */
+        clocks.set(name, { offset: offset, name: name });
+        const newMap = new Map(clocks);
+        setClocks(newMap); /* добавили данные из формы */
+
+        const root = document.querySelector("#root");
+        if (root === null) return;
+        const textCity = root.querySelector("#citys");
+        const textTimezone = root.querySelector("#timezone");
+        ((textCity as HTMLInputElement).value) = "";
+        ((textTimezone as HTMLInputElement).value) = "";
       }
     } else {
       console.log("[Input Timizone Value]: false", offset);
     }
   }
+
   return (
     <>
       <FormFC handler={handler} />
-      <div>
-        <WatcherFC utc={currentTimeZoneOffsetInHours} />
+      <div className="box">
+        <div data-name="localtime">
+          <h2>Местное время</h2>
+          <WatcherFC utc={currentTimeZoneOffsetInHours} />
+        </div>
         {Array.from(clocks.entries()).map(([id, data]) => (
           <div key={id} data-test="test" data-name={data.name}>
-            {data.offset}
-						<WatcherFC utc={data.offset} />
+            <h2>{data.name}</h2>
+            <WatcherFC utc={data.offset} />
           </div>
         ))}
       </div>

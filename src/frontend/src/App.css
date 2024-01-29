@@ -1,13 +1,21 @@
 form {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+    justify-content: flex-start;
   width: 40vw;
   margin: 3em;
 }
 input {
   margin: 0 1em;
 }
+.box {
+  display: flex;
+  gap: 5px;
+}
 
+.box h2 {
+  text-align: center;
+}
 .watches {
   border: 2px solid black;
   width: 20vw;
