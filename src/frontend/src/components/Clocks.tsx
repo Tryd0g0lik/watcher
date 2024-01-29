@@ -3,33 +3,23 @@ import WatcherFC from "./Watcher/index.tsx";
 import Ind from "../services/getId.ts";
 // import Times from "../services/time-zone.ts";
 import FormFC from "./Forms/index.tsx";
-let listing = [] as any[]; /* Один из вариантов куда кидали часы */
+// let listing = [] as any[]; /* Один из вариантов куда кидали часы */
 
 /* Конечный код где и происходит сборка + все действия */
 export default function ClocksFC(): React.JSX.Element | undefined {
-	const mapClock = new Map(); /* Один из многих, но рабочих вариантов некого такого хаба куда
-   скидываем часы в том виде в октором они должны выглядить. От сбда и публикуем.
-   - в данной локации получем 1-у визуализацию часов в местном UTC.
-   Добавить часы не получается.
-   - в локации на строке 8 и выше происходит дублирование. Зато имеем возможность добавлять
-   часы с разными UTC.
-   */
-	const cityId = new Ind();
-	const ind = new Ind();
-	const x = new Date();
-	let currentTimeZoneOffsetInHours = String(x.getTimezoneOffset() / 60 * -1);
-	console.log("[cuttent UTC]: ", currentTimeZoneOffsetInHours);
+  // const mapClock = new Map();
+  const cityId = new Ind();
+  // const ind = new Ind();
+  const x = new Date();
+  let currentTimeZoneOffsetInHours = String(x.getTimezoneOffset() / 60 * -1);
+  console.log("[cuttent UTC]: ", currentTimeZoneOffsetInHours);
+  const [clocks, setClocks] = useState<Map<string, { offset: string, name: string }>>(new Map()); /* Один из вариантов куда кидали часы */
 
-  const [watch, setWatch] = useState(<WatcherFC utc={currentTimeZoneOffsetInHours} />);
-  listing.push(watch);
-	mapClock.set(cityId.indAdd(), watch);
-	const [clocks, setClocks] = useState(listing); /* Один из вариантов куда кидали часы */
-
-	function handler(e: any): void {
+  function handler(e: any): void {
     const patterncitys = /^[A-ZА-Я][а-яa-z]+[а-яa-z]$/; /* Условия для проверки названий городов */
     const re = new RegExp(patterncitys);
 
-		const patternTimizone = /[\+-]?[0-9]{1,2}$/; /* Условия для проверки UTC */
+    const patternTimizone = /[\+-]?[0-9]{1,2}$/; /* Условия для проверки UTC */
     const reTimeZone = new RegExp(patternTimizone, "i");
 
     e.preventDefault();
@@ -37,45 +27,57 @@ export default function ClocksFC(): React.JSX.Element | undefined {
 
     /* Received datas */
     const formSourceData = new FormData(event.target as HTMLFormElement);
-    const citys = (formSourceData.get("citys") as string).slice(0);
-    let timezone = (formSourceData.get("timzone") as string).slice(0);
+    const name = (formSourceData.get("citys") as string).slice(0);
+    let offset = (formSourceData.get("timzone") as string).slice(0);
 
     /* Проверка шаблона из названий городов */
-    if (re.test(citys)) {
-      console.log("[Input citys Value]: true", citys);
+    if (re.test(name)) {
+      console.log("[Input name Value]: true", name);
     } else {
-      console.log("[Input citys Value]: false", citys);
+      console.log("[Input name Value]: false", name);
       return;
     }
 
     /* Проверка шаблона из временной зоны */
-    timezone = timezone.includes("-") ? timezone : ("+" + timezone);
-    if (reTimeZone.test(timezone)) {
-      // setUtc(timezone);
-			console.log("[Input Timizone Value UTC]: ", timezone);
+    offset = offset.includes("-") ? offset : ("+" + offset);
+    if (reTimeZone.test(offset) && ((typeof offset).includes("string"))) {
+      console.log("[Input Timizone Value UTC]: ", offset);
 
-      setWatch(<WatcherFC utc={timezone} />);
-			listing.push(watch); /* не задействована в последствии */
-			mapClock.set(cityId.indAdd(), watch);
-			setClocks(() => listing); /* не задействована в последствии */
+      const indNew = cityId.indAdd();
+      if ((indNew !== null) && (indNew !== undefined)) {
+        console.log("[Timizone will add UTC]: ", offset);
+        setClocks(clocks.set(indNew, { offset: offset, name: name })); /* не задействована в последствии */
+      }
     } else {
-      console.log("[Input Timizone Value]: false", timezone);
+      console.log("[Input Timizone Value]: false", offset);
     }
   }
-  // if (uniqueInd !== null && uniqueInd !== undefined) {
-	const mapKeys = Array.from(mapClock.keys());
+  if (Array.from(clocks.entries()).length > 0) {
+    return (
+      <>
+        <FormFC handler={handler} />
+        <div>
+          {Array.from(clocks.entries()).map((id: any, data: any) => (
+            <div key={id} data-test="test" data-name={data.name}>
+              <WatcherFC utc={data.offset} />
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <FormFC handler={handler} />
+        <div>
 
-  return (
-    <>
-      <FormFC handler={handler} />
-      <div>
-				{mapKeys.map((item: any) => (
-        <div key={ind.indAdd() + String(listing.length)}>
-						{mapClock.get(item)}
+          <div data-test="test">
+            <WatcherFC utc={currentTimeZoneOffsetInHours} />
           </div>
-        ))}
-      </div>
-    </>
-  );
+
+        </div>
+      </>
+    );
+  }
   // }
 }
