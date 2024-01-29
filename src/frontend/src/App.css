@@ -16,6 +16,9 @@ input {
 .box h2 {
   text-align: center;
 }
+div[data-name="localtime"] {
+  position: relative;
+}
 .watches {
   border: 2px solid black;
   width: 20vw;
@@ -36,4 +39,11 @@ input {
   font-size: 20px;
   font-weight: bold;
   color: #0000cc;
+}
+
+.box .btn-close {
+  color: red;
+  position: absolute;
+  right: -15px;
+  top: -5px;
 }

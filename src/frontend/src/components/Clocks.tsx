@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import WatcherFC from "./Watcher/index.tsx";
 import Ind from "../services/getId.ts";
 import FormFC from "./Forms/index.tsx";
-
+import CloseFC from "./Close.tsx";
 /* Конечный код где и происходит сборка + все действия */
 export default function ClocksFC(): React.JSX.Element | undefined {
   const cityId = new Ind(); /* инжекс для сохранения джанных полученных из формы */
-
+  let button: HTMLElement | null;
+  useEffect(() => {
+    button = document.querySelector("button[aria-label='Close']");
+  });
   const x = new Date();
   let currentTimeZoneOffsetInHours = String(x.getTimezoneOffset() / 60 * -1);
   console.log("[cuttent UTC]: ", currentTimeZoneOffsetInHours);
@@ -60,16 +63,29 @@ export default function ClocksFC(): React.JSX.Element | undefined {
     }
   }
 
+  function handlerCLose(e: any): void {
+    e.preventDefault();
+
+    if ((button === null) && (button === undefined)) return;
+    const parrent = e.currentTarget as HTMLElement;
+    parrent?.remove();
+    e.stopPropagation();
+  }
+
   return (
     <>
       <FormFC handler={handler} />
       <div className="box">
-        <div data-name="localtime">
+        <div onMouseDown={handlerCLose} data-name="localtime">
+          <CloseFC />
+          {/* <CloseButton /> */}
           <h2>Местное время</h2>
           <WatcherFC utc={currentTimeZoneOffsetInHours} />
         </div>
         {Array.from(clocks.entries()).map(([id, data]) => (
-          <div key={id} data-test="test" data-name={data.name}>
+          <div key={id} onMouseDown={handlerCLose} data-test="test" data-name="localtime">
+            <CloseFC />
+            {/* <CloseButton /> */}
             <h2>{data.name}</h2>
             <WatcherFC utc={data.offset} />
           </div>
