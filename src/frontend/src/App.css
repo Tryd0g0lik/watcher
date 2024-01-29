@@ -1,13 +1,24 @@
 form {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+    justify-content: flex-start;
   width: 40vw;
   margin: 3em;
 }
 input {
   margin: 0 1em;
 }
+.box {
+  display: flex;
+  gap: 5px;
+}
 
+.box h2 {
+  text-align: center;
+}
+div[data-name="localtime"] {
+  position: relative;
+}
 .watches {
   border: 2px solid black;
   width: 20vw;
@@ -28,4 +39,11 @@ input {
   font-size: 20px;
   font-weight: bold;
   color: #0000cc;
+}
+
+.box .btn-close {
+  color: red;
+  position: absolute;
+  right: -15px;
+  top: -5px;
 }

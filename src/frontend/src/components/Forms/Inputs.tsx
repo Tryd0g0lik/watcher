@@ -27,7 +27,7 @@ export default function InputFC({
         <input type={type}
           id={ind}
           name={name}
-          placeholder={placeholder} />;
+          placeholder={placeholder} />
       </label >
     </>
   );
