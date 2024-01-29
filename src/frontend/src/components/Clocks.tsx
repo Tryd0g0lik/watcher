@@ -10,6 +10,7 @@ export default function ClocksFC(): React.JSX.Element | undefined {
   const x = new Date();
   let currentTimeZoneOffsetInHours = String(x.getTimezoneOffset() / 60 * -1);
   console.log("[cuttent UTC]: ", currentTimeZoneOffsetInHours);
+
   const [clocks, setClocks] = useState<Map<string, { offset: string, name: string }>>(new Map()); /*  куда кидали данные для часов */
 
   function handler(e: any): void {
@@ -43,7 +44,9 @@ export default function ClocksFC(): React.JSX.Element | undefined {
       const indNew = cityId.indAdd();
       if ((indNew !== null) && (indNew !== undefined)) {
         console.log("[Timizone will add UTC]: ", offset);
-        setClocks(clocks.set(indNew, { offset: offset, name: name })); /* добавили данные из формы */
+				clocks.set(indNew, { offset: offset, name: name });
+				const newMap = new Map(clocks);
+				setClocks(newMap); /* добавили данные из формы */
       }
     } else {
       console.log("[Input Timizone Value]: false", offset);
@@ -57,7 +60,7 @@ export default function ClocksFC(): React.JSX.Element | undefined {
         {Array.from(clocks.entries()).map(([id, data]) => (
           <div key={id} data-test="test" data-name={data.name}>
             {data.offset}
-            <WatcherFC utc={"+3"} />
+						<WatcherFC utc={data.offset} />
           </div>
         ))}
       </div>
