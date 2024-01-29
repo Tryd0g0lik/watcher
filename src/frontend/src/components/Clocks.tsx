@@ -65,7 +65,6 @@ export default function ClocksFC(): React.JSX.Element | undefined {
 
   function handlerCLose(e: any): void {
     e.preventDefault();
-
     if ((button === null) && (button === undefined)) return;
     const parrent = e.currentTarget as HTMLElement;
     parrent?.remove();
@@ -78,14 +77,12 @@ export default function ClocksFC(): React.JSX.Element | undefined {
       <div className="box">
         <div onMouseDown={handlerCLose} data-name="localtime">
           <CloseFC />
-          {/* <CloseButton /> */}
           <h2>Местное время</h2>
           <WatcherFC utc={currentTimeZoneOffsetInHours} />
         </div>
         {Array.from(clocks.entries()).map(([id, data]) => (
           <div key={id} onMouseDown={handlerCLose} data-test="test" data-name="localtime">
             <CloseFC />
-            {/* <CloseButton /> */}
             <h2>{data.name}</h2>
             <WatcherFC utc={data.offset} />
           </div>
