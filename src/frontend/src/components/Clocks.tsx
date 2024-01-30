@@ -1,20 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import WatcherFC from "./Watcher/index.tsx";
 import Ind from "../services/getId.ts";
 import FormFC from "./Forms/index.tsx";
 import CloseFC from "./Close.tsx";
 /* Конечный код где и происходит сборка + все действия */
+let newMap: Map<string, { offset: string, name: string }>;
 export default function ClocksFC(): React.JSX.Element | undefined {
   const cityId = new Ind(); /* инжекс для сохранения джанных полученных из формы */
-  let button: HTMLElement | null;
-  useEffect(() => {
-    button = document.querySelector("button[aria-label='Close']");
-  });
+
+  // useEffect(() => {
+  //   button = document.querySelector("button[aria-label='Close']");
+  // });
   const x = new Date();
   let currentTimeZoneOffsetInHours = String(x.getTimezoneOffset() / 60 * -1);
   console.log("[cuttent UTC]: ", currentTimeZoneOffsetInHours);
 
   const [clocks, setClocks] = useState<Map<string, { offset: string, name: string }>>(new Map()); /*  куда кидали данные для часов */
+  // let buffer: any = {};
+  function handlerCLose(e: any): void {
+    e.preventDefault();
+    // if ((button === null) && (button === undefined)) return;
+    const parrent = e.currentTarget as HTMLElement;
+    const h2 = parrent.querySelector("h2");
+    let nameForDelete: string = "";
+    if ((h2?.textContent !== null) && (h2?.textContent !== undefined)) {
+      nameForDelete = h2?.textContent.slice(0);
+    }
+
+    parrent?.remove();
+    if ((nameForDelete.length > 0) && (clocks.has(nameForDelete))) {
+      // buffer = clocks;
+
+      clocks.delete(nameForDelete);
+      console.log("[DELETE] newMap: ", newMap.entries());
+      console.log("[DELETE] clocks: ", clocks.entries());
+      if ((newMap !== null) && (newMap !== undefined)) {
+        console.log(typeof newMap);
+        console.log(newMap.has(nameForDelete));
+        newMap.delete(nameForDelete);
+        // newMap = buffer;
+      }
+    }
+    console.log("[-----]: ", clocks);
+
+    e.stopPropagation();
+  }
 
   function handler(e: any): void {
     const patterncitys = /^[A-ZА-Я][а-яa-z]+[а-яa-z]$/; /* Условия для проверки названий городов */
@@ -40,6 +70,7 @@ export default function ClocksFC(): React.JSX.Element | undefined {
     }
 
     /* Проверка шаблона из временнОй зоны */
+
     offset = offset.includes("-") ? offset : ("+" + offset);
     if (reTimeZone.test(offset) && ((typeof offset).includes("string"))) {
       console.log("[Input Timizone Value UTC]: ", offset);
@@ -48,9 +79,8 @@ export default function ClocksFC(): React.JSX.Element | undefined {
       if ((indNew !== null) && (indNew !== undefined)) {
         console.log("[Timizone will add UTC]: ", offset);
         clocks.set(name, { offset: offset, name: name });
-        const newMap = new Map(clocks);
+        newMap = new Map(clocks);
         setClocks(newMap); /* добавили данные из формы */
-
         const root = document.querySelector("#root");
         if (root === null) return;
         const textCity = root.querySelector("#citys");
@@ -63,14 +93,6 @@ export default function ClocksFC(): React.JSX.Element | undefined {
     }
   }
 
-  function handlerCLose(e: any): void {
-    e.preventDefault();
-    if ((button === null) && (button === undefined)) return;
-    const parrent = e.currentTarget as HTMLElement;
-    parrent?.remove();
-    e.stopPropagation();
-  }
-
   return (
     <>
       <FormFC handler={handler} />
@@ -81,7 +103,7 @@ export default function ClocksFC(): React.JSX.Element | undefined {
           <WatcherFC utc={currentTimeZoneOffsetInHours} />
         </div>
         {Array.from(clocks.entries()).map(([id, data]) => (
-          <div key={id} onMouseDown={handlerCLose} data-test="test" data-name="localtime">
+          <div key={id} onMouseDown={handlerCLose} data-name="localtime">
             <CloseFC />
             <h2>{data.name}</h2>
             <WatcherFC utc={data.offset} />
