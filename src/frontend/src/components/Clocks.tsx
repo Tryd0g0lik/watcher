@@ -8,45 +8,27 @@ import CloseFC from "./Close.tsx";
 export default function ClocksFC(): React.JSX.Element | undefined {
   const cityId = new Ind(); /* инжекс для сохранения джанных полученных из формы */
   let newMap: Map<string, { offset: string, name: string }>;
-  // useEffect(() => {
-  //   button = document.querySelector("button[aria-label='Close']");
-  // });
   const x = new Date();
   let currentTimeZoneOffsetInHours = String(x.getTimezoneOffset() / 60 * -1);
-  console.log("[cuttent UTC]: ", currentTimeZoneOffsetInHours);
-
   const [clocks, setClocks] = useState<Map<string, { offset: string, name: string }>>(new Map()); /*  куда кидали данные для часов */
-  let bufer: any = {};
   function handlerCLose(e: any): void {
     e.preventDefault();
-    // if ((button === null) && (button === undefined)) return;
     const parrent = e.currentTarget as HTMLElement;
-    console.log("[parrent]: ", parrent);
     const h2 = parrent.querySelector("h2");
     let nameForDelete: string = "";
     if ((h2?.textContent !== null) && (h2?.textContent !== undefined)) {
       nameForDelete = h2?.textContent.slice(0);
     }
 
-    // debugger;
     parrent?.remove();
     if ((nameForDelete.length > 0) && (clocks.has(nameForDelete))) {
-      // bufer = clocks
-
-      bufer;
       clocks.clear();
-      console.log("[DELETE] newMap: ", newMap.entries());
-      console.log("[DELETE] clocks: ", clocks.entries());
       if ((newMap !== null) && (newMap !== undefined)) {
-        console.log(typeof newMap);
-        console.log(newMap.has(nameForDelete));
         newMap.delete(nameForDelete);
       }
 
       setClocks(clocks);
     }
-    console.log("[-----]: ", clocks);
-
     e.stopPropagation();
   }
 
@@ -77,11 +59,8 @@ export default function ClocksFC(): React.JSX.Element | undefined {
 
     offset = offset.includes("-") ? offset : ("+" + offset);
     if (reTimeZone.test(offset) && ((typeof offset).includes("string"))) {
-      console.log("[Input Timizone Value UTC]: ", offset);
-
       const indNew = cityId.indAdd();
       if ((indNew !== null) && (indNew !== undefined)) {
-        console.log("[Timizone will add UTC]: ", offset);
         const ind_ = cityId.indAdd();
         if (ind_ !== null && ind_ !== undefined) {
           clocks.set(ind_, { offset: offset, name: name });
