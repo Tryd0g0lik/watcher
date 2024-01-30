@@ -14,21 +14,8 @@ export default function ClocksFC(): React.JSX.Element | undefined {
   function handlerCLose(e: any): void {
     e.preventDefault();
     const parrent = e.currentTarget as HTMLElement;
-    const h2 = parrent.querySelector("h2");
-    let nameForDelete: string = "";
-    if ((h2?.textContent !== null) && (h2?.textContent !== undefined)) {
-      nameForDelete = h2?.textContent.slice(0);
-    }
-
     parrent?.remove();
-    if ((nameForDelete.length > 0) && (clocks.has(nameForDelete))) {
-      clocks.clear();
-      if ((newMap !== null) && (newMap !== undefined)) {
-        newMap.delete(nameForDelete);
-      }
-
-      setClocks(clocks);
-    }
+    setClocks(clocks);
     e.stopPropagation();
   }
 
