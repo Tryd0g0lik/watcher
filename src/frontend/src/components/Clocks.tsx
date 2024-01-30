@@ -4,10 +4,10 @@ import Ind from "../services/getId.ts";
 import FormFC from "./Forms/index.tsx";
 import CloseFC from "./Close.tsx";
 /* Конечный код где и происходит сборка + все действия */
-let newMap: Map<string, { offset: string, name: string }>;
+
 export default function ClocksFC(): React.JSX.Element | undefined {
   const cityId = new Ind(); /* инжекс для сохранения джанных полученных из формы */
-
+  let newMap: Map<string, { offset: string, name: string }>;
   // useEffect(() => {
   //   button = document.querySelector("button[aria-label='Close']");
   // });
@@ -16,30 +16,34 @@ export default function ClocksFC(): React.JSX.Element | undefined {
   console.log("[cuttent UTC]: ", currentTimeZoneOffsetInHours);
 
   const [clocks, setClocks] = useState<Map<string, { offset: string, name: string }>>(new Map()); /*  куда кидали данные для часов */
-  // let buffer: any = {};
+  let bufer: any = {};
   function handlerCLose(e: any): void {
     e.preventDefault();
     // if ((button === null) && (button === undefined)) return;
     const parrent = e.currentTarget as HTMLElement;
+    console.log("[parrent]: ", parrent);
     const h2 = parrent.querySelector("h2");
     let nameForDelete: string = "";
     if ((h2?.textContent !== null) && (h2?.textContent !== undefined)) {
       nameForDelete = h2?.textContent.slice(0);
     }
 
+    // debugger;
     parrent?.remove();
     if ((nameForDelete.length > 0) && (clocks.has(nameForDelete))) {
-      // buffer = clocks;
+      // bufer = clocks
 
-      clocks.delete(nameForDelete);
+      bufer;
+      clocks.clear();
       console.log("[DELETE] newMap: ", newMap.entries());
       console.log("[DELETE] clocks: ", clocks.entries());
       if ((newMap !== null) && (newMap !== undefined)) {
         console.log(typeof newMap);
         console.log(newMap.has(nameForDelete));
         newMap.delete(nameForDelete);
-        // newMap = buffer;
       }
+
+      setClocks(clocks);
     }
     console.log("[-----]: ", clocks);
 
@@ -78,7 +82,10 @@ export default function ClocksFC(): React.JSX.Element | undefined {
       const indNew = cityId.indAdd();
       if ((indNew !== null) && (indNew !== undefined)) {
         console.log("[Timizone will add UTC]: ", offset);
-        clocks.set(name, { offset: offset, name: name });
+        const ind_ = cityId.indAdd();
+        if (ind_ !== null && ind_ !== undefined) {
+          clocks.set(ind_, { offset: offset, name: name });
+        }
         newMap = new Map(clocks);
         setClocks(newMap); /* добавили данные из формы */
         const root = document.querySelector("#root");
@@ -103,7 +110,7 @@ export default function ClocksFC(): React.JSX.Element | undefined {
           <WatcherFC utc={currentTimeZoneOffsetInHours} />
         </div>
         {Array.from(clocks.entries()).map(([id, data]) => (
-          <div key={id} onMouseDown={handlerCLose} data-name="localtime">
+          <div key={id} onMouseDown={handlerCLose} data-test="test" data-name="localtime">
             <CloseFC />
             <h2>{data.name}</h2>
             <WatcherFC utc={data.offset} />
